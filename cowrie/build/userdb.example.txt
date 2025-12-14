@@ -1,0 +1,7 @@
+root:x:1234
+admin:x:admin123
+test:x:test
+ubuntu:x:password
+ubnt:x:ubnt
+root:x:password
+root:x:none

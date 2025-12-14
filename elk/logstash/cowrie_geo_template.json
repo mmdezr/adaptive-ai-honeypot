@@ -1,0 +1,23 @@
+{
+  "index_patterns": ["logstash-cowrie-*"],
+  "template": {
+    "mappings": {
+      "properties": {
+        "geoip": {
+          "properties": {
+            "location": {
+              "type": "geo_point"
+            },
+            "geo": {
+              "properties": {
+                "location": {
+                  "type": "geo_point"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

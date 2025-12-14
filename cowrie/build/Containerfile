@@ -1,0 +1,43 @@
+FROM rockylinux:9
+
+# Instala dependencias del sistema y Python 3.11
+RUN dnf install -y \
+      git python3.11 python3.11-devel libffi-devel openssl-devel gcc make which && \
+    ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
+    ln -sf /usr/bin/pip3.11 /usr/bin/pip3 && \
+    dnf clean all && rm -rf /var/cache/dnf
+
+# Crea usuario cowrie
+RUN useradd -m cowrie
+
+# Cambia a usuario cowrie
+USER cowrie
+WORKDIR /home/cowrie
+
+# Clona Cowrie desde GitHub
+RUN git clone https://github.com/cowrie/cowrie.git
+WORKDIR /home/cowrie/cowrie
+
+# Crea entorno virtual con Python 3.11 e instala dependencias
+RUN python3 -m venv cowrie-env && \
+    . cowrie-env/bin/activate && \
+    pip install --upgrade pip wheel setuptools && \
+    pip install -r requirements.txt && \
+    pip install -e .
+
+# Copia configuraciones personalizadas (si existen)
+COPY cowrie.cfg.custom /home/cowrie/cowrie/etc/cowrie.cfg
+COPY userdb.txt /home/cowrie/cowrie/etc/userdb.txt
+
+# Asegura que el plugin de Twisted quede registrado
+ENV PYTHONPATH="/home/cowrie/cowrie/src:${PYTHONPATH}"
+RUN mkdir -p /home/cowrie/cowrie-env/lib/python3.11/site-packages/twisted/plugins && \
+    cp /home/cowrie/cowrie/src/twisted/plugins/cowrie_plugin.py \
+       /home/cowrie/cowrie-env/lib/python3.11/site-packages/twisted/plugins/cowrie.py
+
+# Expone el puerto por defecto
+EXPOSE 2222
+
+# Arranca Cowrie en primer plano (sin modo daemon)
+CMD ["/home/cowrie/cowrie/cowrie-env/bin/twistd", "-n", "cowrie"]
+

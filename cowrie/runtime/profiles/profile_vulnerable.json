@@ -1,0 +1,6 @@
+{
+  "banner": "SSH-2.0-Dropbear_2015.67",
+  "uptime": "up 48 days, 11:55,  2 users,  load average: 1.23",
+  "users": ["root:x:root", "pi:x:raspberry", "test:x:test"],
+  "fake_files": ["shadow.bak", "ftp_creds.txt", "backup.tar.gz"]
+}

@@ -1,0 +1,27 @@
+filebeat.inputs:
+  - type: filestream
+    id: cowrie-json
+    enabled: true
+    paths:
+      - /opt/cowrie-logs/cowrie.json
+    parsers:
+      - ndjson:
+          overwrite_keys: true
+          add_error_key: true
+          expand_keys: true
+    fields:
+      log_source: cowrie
+    fields_under_root: true
+
+#output.elasticsearch:
+ # hosts: ["http://elasticsearch:9200"]
+ # username: "filebeat_internal"
+ # password: "filebeat123"
+ # index: "logstash-cowrie-%{+yyyy.MM.dd}"
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+setup.ilm.enabled: false
+setup.template.name: "cowrie"
+setup.template.pattern: "logstash-cowrie-*"

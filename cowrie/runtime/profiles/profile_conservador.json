@@ -1,0 +1,6 @@
+{
+  "banner": "SSH-2.0-OpenSSH_5.3p1 Debian-3ubuntu7",
+  "uptime": "up 0 days,  0:03,  1 user,  load average: 0.01",
+  "users": ["root:x:1234"],
+  "fake_files": ["readme.txt", "test.sh"]
+}

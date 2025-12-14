@@ -1,0 +1,38 @@
+# Secrets / keys
+*.key
+*.pem
+*.crt
+.env
+
+# Logs & real data
+*.log
+*.jsonl
+*.tar.gz
+cowrie-logs/
+cowrie/runtime/logs/
+data/raw/
+adaptation.log
+
+# Malware / samples
+malware_samples/
+*.bin
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ML models
+*.joblib
+*.pkl
+*.pt
+*.h5
+
+# Elastic data
+elasticsearch/data/
+logstash/data/
+filebeat-data/
+
+# GeoIP DBs (MaxMind)
+*.mmdb

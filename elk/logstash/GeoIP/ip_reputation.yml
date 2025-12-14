@@ -1,0 +1,28 @@
+# 🌐 IP reputation dictionary (Miriam — Cowrie honeypot)
+# formato:  "IP" : "categoria"
+
+# Reputación alta (maliciosas conocidas)
+"82.159.251.177" : "malicious"
+"198.235.24.182" : "malicious"
+"93.188.83.96"   : "malicious"
+"58.213.90.162"  : "malicious"
+"103.138.223.133": "malicious"
+"43.252.230.112" : "malicious"
+"182.45.247.74"  : "malicious"
+"14.103.234.65"  : "malicious"
+"216.232.48.30"  : "malicious"
+"195.19.93.34"   : "malicious"
+"91.108.226.135" : "malicious"
+"65.181.112.148" : "malicious"
+
+# Cloud comunes (suelen atacar)
+"143.198.0.0/16" : "suspicious"
+"167.71.0.0/16"  : "suspicious"
+"206.189.0.0/16" : "suspicious"
+
+# Ejemplo de IPs seguras (para test)
+"127.0.0.1" : "clean"
+"10.0.0.0/8" : "internal"
+
+# Fallback para cualquier IP no listada
+"default" : "unknown"

@@ -1,0 +1,30 @@
+[ssh]
+listen_endpoints = tcp:2222:interface=0.0.0.0
+auth_class = UserDB
+
+[output_jsonlog]
+enabled = true
+logfile = /opt/cowrie-logs/cowrie.json
+
+[output_textlog]
+enabled = true
+logfile = /opt/cowrie-logs/cowrie.log
+format = text
+
+[output_mysql]
+enabled = false
+
+[output_elasticsearch]
+enabled = false
+
+[output_syslog]
+enabled = false
+
+[shell]
+enabled = true
+
+[honeypot]
+hostname = srv758967
+
+[downloads]
+enabled = false
