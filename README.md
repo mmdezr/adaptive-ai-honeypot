@@ -1,28 +1,108 @@
-# Adaptive AI Honeypots (Cowrie + ELK + Random Forest + LinUCB)
+# Adaptive AI Honeypots for Corporate Networks
 
-Adaptive honeypot system for corporate-style threat monitoring using an SSH honeypot (Cowrie),
-Elastic Stack for observability, and an AI-driven adaptation layer (state classification + contextual bandit).
+This project implements an **adaptive honeypot system** designed for corporate-style environments.
+It combines deception technologies (SSH honeypot) with data-driven decision making using
+machine learning and contextual bandits.
 
-## Components
-- **Cowrie (SSH honeypot)**: containerized build/runtime profiles.
-- **ELK pipeline**: Filebeat + Logstash parsing/enrichment + dashboards.
-- **AI layer**:
-  - Random Forest: session/state classification
-  - LinUCB: decision policy to select the next deception profile
+The system dynamically adapts the behavior of the honeypot in response to attacker activity,
+with the goal of increasing engagement time and improving threat intelligence collection.
 
-## Repository layout
-- `cowrie/` Cowrie container build + runtime examples + profiles
-- `elk/` Logstash pipeline, Filebeat config, GeoIP guidance
-- `ia/` Python code for training, control and analysis
-- `scripts/` helper scripts
+---
 
-## Quick start (high level)
-1. Build and run Cowrie (Podman) using `cowrie/build/Containerfile`
-2. Deploy ELK pipeline and point Filebeat to Cowrie JSON logs
-3. Run the AI controller to adapt profiles based on observed behavior
+## System Architecture
 
-## GeoIP databases
-MaxMind GeoLite2 databases are not included. See `elk/logstash/GeoIP/README.md`.
+The solution is composed of four main layers:
 
-## Security & ethics
-Run only in a controlled environment. Do not expose real production services. Never store secrets in configs.
+1. **Deception Layer**
+   - SSH honeypot based on Cowrie
+   - Multiple deception profiles (conservative, convincing, vulnerable)
+   - Containerized deployment using Podman on Rocky Linux
+
+2. **Observation & Telemetry**
+   - Cowrie logs collected in JSON format
+   - Filebeat for log shipping
+   - Logstash for parsing, enrichment and normalization
+   - Elasticsearch for storage and querying
+   - Kibana for visualization and analysis
+
+3. **AI & Decision Layer**
+   - Random Forest classifier for session/state characterization
+   - LinUCB contextual bandit for adaptive profile selection
+   - Reward functions based on attacker interaction metrics
+
+4. **Adaptation Layer**
+   - Runtime profile switching in Cowrie
+   - Feedback loop driven by observed attacker behavior
+
+---
+
+## Repository Structure
+
+cowrie/ # Cowrie container build and runtime configuration
+elk/ # Filebeat and Logstash pipeline (GeoIP, parsing, enrichment)
+ia/ # Machine learning, adaptation logic and analysis scripts
+scripts/ # Deployment and synchronization utilities
+docs/ # Security, deployment and design documentation
+
+
+---
+
+## Machine Learning Approach
+
+### State Classification (Random Forest)
+Each attacker session is characterized using features extracted from Cowrie logs, such as:
+- Session duration
+- Command frequency
+- Download activity
+- IP reuse patterns
+
+A Random Forest model is used due to its robustness, interpretability and low inference cost.
+
+### Decision Policy (LinUCB)
+Profile selection is modeled as a **contextual bandit problem**:
+- Context: classified session state
+- Actions: available deception profiles
+- Reward: engagement-oriented metrics
+
+LinUCB was chosen to balance exploration and exploitation while remaining computationally lightweight.
+
+---
+
+## Deployment Overview
+
+- Operating system: Rocky Linux
+- Container runtime: Podman
+- Services:
+  - Cowrie (SSH honeypot)
+  - Elasticsearch
+  - Logstash
+  - Filebeat
+  - Kibana
+
+Secrets (e.g., Elasticsearch credentials) are injected via environment variables
+and are **never stored in the repository**.
+
+See:
+- `docs/DEPLOYMENT.md`
+- `docs/SECURITY.md`
+
+---
+
+## Security and Ethics
+
+This project is intended **strictly for controlled environments** (research, education, internal monitoring).
+It must not be deployed on production systems without proper authorization.
+
+The repository excludes:
+- Real attacker datasets
+- Malware samples
+- Credentials or private keys
+- GeoIP databases
+
+---
+
+## Academic Context
+
+This project was developed as part of a Bachelor's Final Project (TFG),
+focusing on cybersecurity, threat intelligence and applied machine learning.
+
