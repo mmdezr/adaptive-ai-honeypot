@@ -1,9 +1,14 @@
 # Security notes
 
-- Do not commit real credentials, API keys, private keys, or tokens.
-- Runtime artifacts are excluded from the repository:
-  - Cowrie logs / datasets with real IP addresses
-  - GeoLite2 databases (.mmdb)
-  - Malware samples / binaries
-- Secrets must be injected via environment variables (e.g., ELASTIC_PASSWORD).
-- If a secret is committed, it must be rotated immediately because Git history is immutable.
+## Do not commit
+- Credentials, tokens, API keys, private keys.
+- Cowrie logs or datasets containing real IP addresses.
+- Malware samples or binaries.
+- GeoIP databases (.mmdb).
+
+## Secrets handling
+- Secrets must be injected via environment variables (e.g., `ELASTIC_PASSWORD`) or local env files not tracked by Git.
+- If a secret is ever committed, it must be rotated immediately because Git history is immutable.
+
+## Notes
+- This repository includes `.example` configuration files to keep deployments reproducible without exposing sensitive data.
